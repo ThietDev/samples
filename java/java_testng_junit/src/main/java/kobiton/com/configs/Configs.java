@@ -2,6 +2,8 @@ package kobiton.com.configs;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.apache.commons.codec.binary.Base64;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 public class Configs {
@@ -17,7 +19,14 @@ public class Configs {
         return null;
     }
 
-    public static final DesiredCapabilities desiredCapabilitiesAndroidWeb(){
+    public static String generateBasicAuth(String username, String apiKey) {
+        String authString = username + ":" + apiKey;
+        byte[] authEncBytes = Base64.encodeBase64(authString.getBytes());
+        String authStringEnc = new String(authEncBytes);
+        return "Basic " + authStringEnc;
+    }
+    
+    public static DesiredCapabilities desiredCapabilitiesAndroidWeb(){
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("sessionName", "Android Web");
         capabilities.setCapability("sessionDescription", "This is an example for Android Web testing");
@@ -30,7 +39,7 @@ public class Configs {
         return capabilities;
     }
 
-    public static final DesiredCapabilities desiredCapabilitiesAndroidApp(){
+    public static DesiredCapabilities desiredCapabilitiesAndroidApp(){
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("sessionName", "Android app");
         capabilities.setCapability("sessionDescription", "This is an example for Android app testing");
@@ -40,10 +49,11 @@ public class Configs {
         capabilities.setCapability("deviceGroup", "KOBITON");
         capabilities.setCapability("deviceName", "Galaxy S5");
         capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("allowMobileShell", true);
         return capabilities;
     }
 
-    public static final DesiredCapabilities desiredCapabilitiesiOSWeb(){
+    public static DesiredCapabilities desiredCapabilitiesiOSWeb(){
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("sessionName", "iOS Web");
         capabilities.setCapability("sessionDescription", "This is an example for iOS Web testing");
@@ -56,7 +66,7 @@ public class Configs {
         return capabilities;
     }
 
-    public static final DesiredCapabilities desiredCapabilitiesiOSApp(){
+    public static DesiredCapabilities desiredCapabilitiesiOSApp(){
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("sessionName", "iOS app");
         capabilities.setCapability("sessionDescription", "This is an example for iOS App testing");
